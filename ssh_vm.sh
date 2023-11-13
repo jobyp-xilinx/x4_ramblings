@@ -12,8 +12,9 @@ comodel=$(echo "$squeue_out" | cut -d: -f2)
 [[ -z "$jobid" ]] && echo "cannot ssh to a VM without jobid" && exit 1
 echo "Comodel host is $comodel"
 
-rtl_dir=$(sacct -j 548416 -o EmuWorkDir%-400 --noheader | cut -d' ' -f1)
+rtl_dir=$(sacct -j $jobid -o EmuWorkDir%-400 --noheader | cut -d' ' -f1)
 ssh_config="$rtl_dir/ssh_config"
+
 
 if [[ -e "$ssh_config" ]] ; then
     echo ssh -F "$ssh_config" veloce_vm "$@"
