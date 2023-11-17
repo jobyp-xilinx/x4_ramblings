@@ -13,7 +13,9 @@ comodel=$(echo "$squeue_out" | cut -d: -f2)
 echo "Comodel host is $comodel"
 rtl_dir=$(sacct --noheader -o EmuWorkDir%-4096 -j $jobid | cut -d' ' -f1)
 
-tail -f $rtl_dir/mc-uart.out
+grep -E '^#[ ]*x[24]_veloce_wrap.mgc_xrtl_uart_i.uart :' $rtl_dir/veloce.log/velrun.transcript
+echo tail -f $rtl_dir/mc-uart.out
+ssh $comodel "tail -f $rtl_dir/mc-uart.out" || tail -f $rtl_dir/mc-uart.out
 
 exit 0
 
