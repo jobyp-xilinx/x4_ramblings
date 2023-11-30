@@ -11,7 +11,7 @@ comodel=$(echo "$squeue_out" | cut -d: -f2)
 
 [[ -z "$jobid" ]] && echo "cannot proceed without jobid" && exit 1
 echo "Comodel host is $comodel"
-rtl_dir=$(sacct --noheader -o EmuWorkDir%-4096 -j $jobid | cut -d' ' -f1)
+rtl_dir=$(squeue --noheader -o %Z -j $jobid)
 
 echo ssh $comodel -- tail -f $rtl_dir/vm-console.out
 ssh $comodel -- tail -f $rtl_dir/vm-console.out
